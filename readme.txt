@@ -54,7 +54,7 @@ Allows all users to add their geolocation into a single map. Helpful to view geo
 
 = Can I translate Geolocate User?
 
-Yes. The plugin is translation ready. You can use any tranlstion plugin. Or customize the plugins language with the provided pot file. The recommended way is to help Entries For WPForms by contributing the translation on [WordPress.org](https://translate.wordpress.org/projects/wp-plugins/geolocate-user).
+Yes. The plugin is translation ready. You can use any tranlstion plugin. Or customize the plugins language with the provided pot file. The recommended way is to help Geolocate User by contributing the translation on [WordPress.org](https://translate.wordpress.org/projects/wp-plugins/geolocate-user).
 
 
 == Screenshots ==

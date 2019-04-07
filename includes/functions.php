@@ -62,7 +62,7 @@ function gu_display_geolocation_map( $profileuser ) {
 								array(
 									'q'      => $location['city'] . ',' . isset( $location['region'] ) ? $location['region'] : $location['region'] ,
 									'll'     => $location['latitude'] . ',' . $location['longitude'],
-									'z'      => apply_filters( 'entries_for_wpforms_geolocation_map_zoom', '6' ),
+									'z'      => apply_filters( 'gu_geolocation_map_zoom', '6' ),
 									'output' => 'embed',
 								),
 								'https://maps.google.com/maps'
