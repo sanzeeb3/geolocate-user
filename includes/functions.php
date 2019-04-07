@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return void
  */
 function gu_save_geolocation_data( $user_id ) {
-error_log(print_r( $user_id, true));
+
 	// Bail if no user ID is found.
 	if( empty( $user_id ) ) {
 		return;
@@ -32,3 +32,48 @@ error_log(print_r( $user_id, true));
 }
 
 add_action( 'user_register', 'gu_save_geolocation_data' );
+
+/**
+ * Show Geolocation data on user profile
+ *
+ * @param  object $profileuser A WP_User object
+ * @return void
+ */
+function gu_display_geolocation_map( $profileuser ) {
+	$location = get_user_meta( $profileuser->ID, 'gu_geolocation_data', true );
+
+	if( empty( $location ) ) {
+		return;
+	}
+
+	?>
+		<table class="form-table">
+			<tr>
+				<th>
+					<label for="user_location"><?php esc_html_e( 'Geo Location Map' ); ?></label>
+				</th>
+				<td>
+					<?php
+
+						$google_map_url = '';
+
+						if ( ! empty( $location ) ) {
+							$google_map_url = add_query_arg(
+								array(
+									'q'      => $location['city'] . ',' . isset( $location['region'] ) ? $location['region'] : $location['region'] ,
+									'll'     => $location['latitude'] . ',' . $location['longitude'],
+									'z'      => apply_filters( 'entries_for_wpforms_geolocation_map_zoom', '6' ),
+									'output' => 'embed',
+								),
+								'https://maps.google.com/maps'
+							);
+						}
+					?><iframe frameborder="2" style="border:2px solid white" src="<?php echo esc_url( $google_map_url ); ?>" style="margin-left:10px;width:100%;height:320px;"></iframe>
+				</td>
+			</tr>
+		</table>
+	<?php
+}
+
+add_action( 'show_user_profile', 'gu_display_geolocation_map', 10, 1 );
+add_action( 'edit_user_profile', 'gu_display_geolocation_map', 10, 1 );
