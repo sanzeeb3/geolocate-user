@@ -77,3 +77,22 @@ function gu_display_geolocation_map( $profileuser ) {
 
 add_action( 'show_user_profile', 'gu_display_geolocation_map', 10, 1 );
 add_action( 'edit_user_profile', 'gu_display_geolocation_map', 10, 1 );
+
+
+/**
+ * Updates the geolocation data when user logs in and location doesnot exits already.
+ *
+ * @param  $user_login Username
+ * @param  $user       User Object
+ */
+function gu_update_location_on_login( $user_login, $user ) {
+	$location = get_user_meta( $user->ID, 'gu_geolocation_data', true );
+
+	if( ! empty( $location ) ) {
+		return;
+	} else {
+		gu_save_geolocation_data( $user->ID );
+	}
+
+}
+add_action( 'wp_login', 'gu_update_location_on_login', 10, 2 );
