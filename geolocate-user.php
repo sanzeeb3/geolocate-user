@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Geolocate User
- * Description: Stores geolocation data of WordPress users. Displays google map and allows user to mark their location via goolge map integration on their profile.
+ * Description: Stores geolocation data of WordPress users.
  * Version: 1.0.0
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np

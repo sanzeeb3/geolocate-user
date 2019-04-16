@@ -50,7 +50,7 @@ function gu_display_geolocation_map( $profileuser ) {
 		<table class="form-table">
 			<tr>
 				<th>
-					<label for="user_location"><?php esc_html_e( 'Geo Location Map' ); ?></label>
+					<label for="user_location"><?php esc_html_e( 'Geo Location Map', 'geolocate-user' ); ?></label>
 				</th>
 				<td>
 					<?php
@@ -70,6 +70,22 @@ function gu_display_geolocation_map( $profileuser ) {
 						}
 					?><iframe frameborder="2" style="border:2px solid white" src="<?php echo esc_url( $google_map_url ); ?>" style="margin-left:10px;width:100%;height:320px;"></iframe>
 				</td>
+			</tr>
+		</table>
+		<table class ="form-table">
+			<tr>
+				<th>
+						<label><?php esc_html_e( 'Geo Location Data', 'geolocate-user' ); ?></label>
+				</th>
+					<td>
+						<table>
+						<?php foreach( $location as $index => $dec_val ) {
+								echo '<tr><td>'. gu_geolocate_user_shorthands( esc_html( $index ) ) . '</td><td>' . esc_html( $dec_val ) . '</td></tr>';
+							}
+						?>
+						</table>
+					</td>
+				</th>
 			</tr>
 		</table>
 	<?php
@@ -96,3 +112,35 @@ function gu_update_location_on_login( $user_login, $user ) {
 
 }
 add_action( 'wp_login', 'gu_update_location_on_login', 10, 2 );
+
+/**
+ * Filter shorthands
+ *
+ * @param  $shorthands Shorthand to filter
+ * @return string Actual String
+ */
+function gu_geolocate_user_shorthands( $shorthands ) {
+
+	switch( $shorthands ) {
+		case 'country':
+			return 'Country';
+		case 'country_code':
+			return 'Country Code';
+		case 'region':
+			return 'Region';
+		case 'postal':
+			return 'Postal Code';
+		case 'latitude':
+			return 'Latitude';
+		case 'longitude':
+			return 'Longitude';
+		case 'city':
+			return 'City';
+		case 'state':
+			return 'State';
+		default:
+			return $shorthands;
+	}
+
+	return $shorthands;
+}

@@ -1,6 +1,6 @@
-=== Geolocate User - Default Geolocation Data, Google Maps Marker And Collective Marker ===
+=== Geolocate User - Store and display geolocation data of WordPress users ===
 Contributors: sanzeeb3
-Tags: geolocation, google maps, user location, user ip, google map pin
+Tags: geolocation, google maps, user location, user ip,
 Requires at least: 4.0
 Tested up to: 5.1
 Requires PHP: 5.3
@@ -8,11 +8,9 @@ Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Stores geolocation data of WordPress users. Displays google map and allows user to mark their location via goolge map integration on their profile.
+Stores and displays geolocation data of WordPress users.
 
 == Description ==
-
-### 1) Default Geolocation Data: 
 
 Stores IP address and displays geolocationd data along with google maps of WordPress users during registration. Supports all all registration forms including native WordPress registration form and WooCommrece registration form. Uses Services:
 * ipinfo.io-
@@ -21,18 +19,6 @@ Stores IP address and displays geolocationd data along with google maps of WordP
 * ipify
 * ipecho
 * whatismyipaddress
-
-
-### 2) Google Maps Marker:
-
-The plugin also uses google maps API. The Maps JavaScript API lets you customize maps with your own content and imagery for display on WordPress user profile page. The Maps JavaScript API features four basic map types (roadmap, satellite, hybrid, and terrain) which you can modify using layers and styles, controls and events, and various services and libraries.
-
-To use the google marker, you must get an API key and insert the API in plugins settings page. The API key is used to track API requests associated with your project for usage and billing. Here's getting started with google maps API: https://cloud.google.com/maps-platform
-
-
-### 2.1) Collective Marker:
-
-Allows all users to add their geolocation into a single map. Helpful to view geolocation of all users at once. All the users will have the capability to view and mark the map under Geolocate User Menu while only adminstrators will have capability to change settings.
 
 
 [Contribute On GitHub Repository](https://github.com/sanzeeb3/geolocate-user)
