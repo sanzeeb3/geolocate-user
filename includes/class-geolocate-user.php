@@ -1,7 +1,8 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
+	// Exit if accessed directly.
 }
 
 /**
@@ -14,6 +15,7 @@ final class Geolocate_User {
 
 	/**
 	 * Plugin version.
+	 *
 	 * @var string
 	 */
 	public $version = '1.0.0';
@@ -23,7 +25,7 @@ final class Geolocate_User {
 	 *
 	 * @var object
 	 */
-	protected static $_instance = null;
+	protected static $instance = null;
 
 	/**
 	 * API endpoints for looking up user IP address.
@@ -48,18 +50,19 @@ final class Geolocate_User {
 		'ip-api.com' => 'http://ip-api.com/json/%s',
 	);
 
-	/*
-	 * Return an instance of this class.
-	 * @return object A single instance of this class.
+	/**
+	 * An instance of this class
+	 *
+	 * @return Object An instance
 	 */
 	public static function get_instance() {
 
 		// If the single instance hasn't been set, set it now.
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**
@@ -68,7 +71,7 @@ final class Geolocate_User {
 	 * @since 1.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'geolocate-user' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'geolocate-user' ), '1.0' ); //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -77,7 +80,7 @@ final class Geolocate_User {
 	 * @since 1.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'geolocate-user' ), '1.0' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'geolocate-user' ), '1.0' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -107,8 +110,8 @@ final class Geolocate_User {
 	/**
 	 * Define constant if not already set.
 	 *
-	 * @param string      $name
-	 * @param string|bool $value
+	 * @param string      $name The Constant Name.
+	 * @param string|bool $value The Constant Value.
 	 */
 	private function define( $name, $value ) {
 		if ( ! defined( $name ) ) {
@@ -125,13 +128,13 @@ final class Geolocate_User {
 	 */
 	private function is_request( $type ) {
 		switch ( $type ) {
-			case 'admin' :
+			case 'admin':
 				return is_admin();
-			case 'ajax' :
+			case 'ajax':
 				return defined( 'DOING_AJAX' );
-			case 'cron' :
+			case 'cron':
 				return defined( 'DOING_CRON' );
-			case 'frontend' :
+			case 'frontend':
 				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
 		}
 	}
@@ -179,12 +182,16 @@ final class Geolocate_User {
 	 * @return string
 	 */
 	public static function get_ip_address() {
-		if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) { // WPCS: input var ok, CSRF ok.
-			return sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );  // WPCS: input var ok, CSRF ok.
-		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) { // WPCS: input var ok, CSRF ok.
+		if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+			// WPCS: input var ok, CSRF ok.
+			return sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_REAL_IP'] ) );
+			// WPCS: input var ok, CSRF ok.
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			// WPCS: input var ok, CSRF ok.
 			// Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2
 			// Make sure we always only send through the first IP in the list which should always be the client IP.
-			return (string) rest_is_ip_address( trim( current( preg_split( '/[,:]/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) ); // WPCS: input var ok, CSRF ok.
+			return (string) rest_is_ip_address( trim( current( preg_split( '/[,:]/', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) ) ) ) );
+			// WPCS: input var ok, CSRF ok.
 		} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) { // @codingStandardsIgnoreLine
 			return sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ); // @codingStandardsIgnoreLine
 		}
@@ -264,7 +271,7 @@ final class Geolocate_User {
 	 * @param  string $ip_address IP address.
 	 * @return string|bool
 	 */
-	public static function geolocate_via_api( $ip_address ) {
+	public static function geolocate_via_api( $ip_address ) { //phpcs:ignore Generic.Metrics.CyclomaticComplexity.MaxExceeded, Generic.Metrics.NestingLevel.MaxExceeded
 		$location_data = get_transient( 'geoip_' . $ip_address );
 
 		if ( false === $location_data ) {
@@ -313,18 +320,18 @@ final class Geolocate_User {
 						default:
 							$geoip_data = apply_filters( 'gu_geolocation_geoip_response_' . $service_name, array(), $response['body'] );
 							break;
-					}
+					}//end switch
 
 					$location_data = array_map( 'sanitize_text_field', $geoip_data );
 
 					if ( ! empty( $location_data['country'] ) ) {
 						break;
 					}
-				}
-			}
+				}//end if
+			}//end foreach
 
 			set_transient( 'geoip_' . $ip_address, $location_data, WEEK_IN_SECONDS );
-		}
+		}//end if
 
 		return $location_data;
 	}

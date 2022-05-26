@@ -15,13 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Save Geolocation data of the user at registration.
  *
- * @param  $user_id  User ID.
+ * @param  int $user_id  User ID.
  * @return void
  */
 function gu_save_geolocation_data( $user_id ) {
 
 	// Bail if no user ID is found.
-	if( empty( $user_id ) ) {
+	if ( empty( $user_id ) ) {
 		return;
 	}
 
@@ -34,15 +34,15 @@ function gu_save_geolocation_data( $user_id ) {
 add_action( 'user_register', 'gu_save_geolocation_data' );
 
 /**
- * Show Geolocation data on user profile
+ * Show Geolocation data on user profile.
  *
- * @param  object $profileuser A WP_User object
+ * @param  object $profileuser A WP_User object.
  * @return void
  */
 function gu_display_geolocation_map( $profileuser ) {
 	$location = get_user_meta( $profileuser->ID, 'gu_geolocation_data', true );
 
-	if( empty( $location ) ) {
+	if ( empty( $location ) ) {
 		return;
 	}
 
@@ -57,18 +57,19 @@ function gu_display_geolocation_map( $profileuser ) {
 
 						$google_map_url = '';
 
-						if ( ! empty( $location ) ) {
-							$google_map_url = add_query_arg(
-								array(
-									'q'      => $location['city'] . ',' . isset( $location['region'] ) ? $location['region'] : $location['region'] ,
-									'll'     => $location['latitude'] . ',' . $location['longitude'],
-									'z'      => apply_filters( 'gu_geolocation_map_zoom', '6' ),
-									'output' => 'embed',
-								),
-								'https://maps.google.com/maps'
-							);
-						}
-					?><iframe frameborder="2" style="border:2px solid white" src="<?php echo esc_url( $google_map_url ); ?>" style="margin-left:10px;width:100%;height:320px;"></iframe>
+					if ( ! empty( $location ) ) {
+						$google_map_url = add_query_arg(
+							array(
+								'q'      => $location['city'] . ',' . isset( $location['region'] ) ? $location['region'] : $location['region'],
+								'll'     => $location['latitude'] . ',' . $location['longitude'],
+								'z'      => apply_filters( 'gu_geolocation_map_zoom', '6' ),
+								'output' => 'embed',
+							),
+							'https://maps.google.com/maps'
+						);
+					}
+					?>
+					<iframe frameborder="2" style="border:2px solid white" src="<?php echo esc_url( $google_map_url ); ?>" style="margin-left:10px;width:100%;height:320px;"></iframe>
 				</td>
 			</tr>
 		</table>
@@ -79,9 +80,10 @@ function gu_display_geolocation_map( $profileuser ) {
 				</th>
 					<td>
 						<table>
-						<?php foreach( $location as $index => $dec_val ) {
-								echo '<tr><td>'. gu_geolocate_user_shorthands( esc_html( $index ) ) . '</td><td>' . esc_html( $dec_val ) . '</td></tr>';
-							}
+						<?php
+						foreach ( $location as $index => $dec_val ) {
+								echo '<tr><td>' . gu_geolocate_user_shorthands( esc_html( $index ) ) . '</td><td>' . esc_html( $dec_val ) . '</td></tr>';
+						}
 						?>
 						</table>
 					</td>
@@ -104,7 +106,7 @@ add_action( 'edit_user_profile', 'gu_display_geolocation_map', 10, 1 );
 function gu_update_location_on_login( $user_login, $user ) {
 	$location = get_user_meta( $user->ID, 'gu_geolocation_data', true );
 
-	if( ! empty( $location ) ) {
+	if ( ! empty( $location ) ) {
 		return;
 	} else {
 		gu_save_geolocation_data( $user->ID );
@@ -121,7 +123,7 @@ add_action( 'wp_login', 'gu_update_location_on_login', 10, 2 );
  */
 function gu_geolocate_user_shorthands( $shorthands ) {
 
-	switch( $shorthands ) {
+	switch ( $shorthands ) {
 		case 'country':
 			return 'Country';
 		case 'country_code':

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Geolocate User
- * Description: Stores geolocation data of WordPress users.
+ * Description: Displays geolocation data of WordPress users.
  * Version: 1.0.0
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np
